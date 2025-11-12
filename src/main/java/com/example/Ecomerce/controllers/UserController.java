@@ -19,12 +19,11 @@ public class UserController {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    @GetMapping
-    public Iterable<UserDto> getAllUsers(@RequestParam String sort){
-        if (!Set.of("name", "email").contains(sort)){
-            sort = "name";
-        }
-
+    @GetMapping//("/users")
+    public Iterable<UserDto> getAllUsers(){//(@RequestParam String sort)
+//        if (!Set.of("name", "email").contains(sort)){
+//            sort = "name";
+//        }
         return userRepository.findAll()
                 .stream()
                 .map(userMapper::toDto)

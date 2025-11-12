@@ -54,10 +54,10 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
-    private Set<Product> favoriteProducts = new HashSet<>();
+    private Set<Product> wishlist = new HashSet<>();
 
     public void addFavoriteProduct(Product product) {
-        favoriteProducts.add(product);
+        wishlist.add(product);
     }
 
     //also you can use the lombok annotation @ToString
