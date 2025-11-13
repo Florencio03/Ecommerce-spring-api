@@ -5,6 +5,7 @@ import com.example.Ecomerce.entities.User;
 import com.example.Ecomerce.mappers.UserMapper;
 import com.example.Ecomerce.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +21,13 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping//("/users")
-    public Iterable<UserDto> getAllUsers(){//(@RequestParam String sort)
-//        if (!Set.of("name", "email").contains(sort)){
-//            sort = "name";
-//        }
-        return userRepository.findAll()
+    public Iterable<UserDto> getAllUsers(
+            @RequestParam(required = false, defaultValue = "", name = "sort") String sort
+    ){
+        if (!Set.of("name", "email").contains(sort)){
+            sort = "name";
+        }
+        return userRepository.findAll(Sort.by(sort))
                 .stream()
                 .map(userMapper::toDto)
                 .toList();
