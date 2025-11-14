@@ -1,5 +1,6 @@
 package com.example.Ecomerce.controllers;
 
+import com.example.Ecomerce.dtos.RegisterUserRequest;
 import com.example.Ecomerce.dtos.UserDto;
 import com.example.Ecomerce.entities.User;
 import com.example.Ecomerce.mappers.UserMapper;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Set;
 
@@ -45,5 +47,17 @@ public class UserController {
         //var userDto = new UserDto(user.getId(), user.getName(), user.getEmail());
         return ResponseEntity.ok(userMapper.toDto(user));
 
+    }
+
+    @PostMapping
+    public ResponseEntity<UserDto> createUser(
+            @RequestBody RegisterUserRequest request,
+            UriComponentsBuilder uriBuilder){
+        var user = userMapper.toEntity(request);
+        userRepository.save(user);
+
+        var userDto = userMapper.toDto(user);
+        var uri = uriBuilder.path("/users/{id}").buildAndExpand(userDto.getId()).toUri();
+        return ResponseEntity.created(uri).body(userDto);
     }
 }
