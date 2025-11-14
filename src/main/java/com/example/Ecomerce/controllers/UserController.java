@@ -1,6 +1,7 @@
 package com.example.Ecomerce.controllers;
 
 import com.example.Ecomerce.dtos.RegisterUserRequest;
+import com.example.Ecomerce.dtos.UpdateUserRequest;
 import com.example.Ecomerce.dtos.UserDto;
 import com.example.Ecomerce.entities.User;
 import com.example.Ecomerce.mappers.UserMapper;
@@ -59,5 +60,31 @@ public class UserController {
         var userDto = userMapper.toDto(user);
         var uri = uriBuilder.path("/users/{id}").buildAndExpand(userDto.getId()).toUri();
         return ResponseEntity.created(uri).body(userDto);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<UserDto> updateUser(
+            @PathVariable(name = "id") Long id,
+            @RequestBody UpdateUserRequest request) {
+        var user = userRepository.findById(id).orElse(null);
+        if (user == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        userMapper.update(request, user);
+        userRepository.save(user);
+
+        return ResponseEntity.ok(userMapper.toDto(user));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
+        var user = userRepository.findById(id).orElse(null);
+        if (user == null){
+            return ResponseEntity.notFound().build();
+        }
+        userRepository.delete(user);
+
+        return ResponseEntity.noContent().build();
     }
 }

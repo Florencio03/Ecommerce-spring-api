@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MessageController {
-    @RequestMapping("/")
+    //Change endpoint
+    @RequestMapping("/placeholderMessage")
     public Message sayHello() {
         return new Message("Hello World!");
     }
