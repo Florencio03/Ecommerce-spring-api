@@ -1,5 +1,6 @@
 package com.example.Ecomerce.controllers;
 
+import com.example.Ecomerce.dtos.ChangePasswordRequest;
 import com.example.Ecomerce.dtos.RegisterUserRequest;
 import com.example.Ecomerce.dtos.UpdateUserRequest;
 import com.example.Ecomerce.dtos.UserDto;
@@ -75,6 +76,25 @@ public class UserController {
         userRepository.save(user);
 
         return ResponseEntity.ok(userMapper.toDto(user));
+    }
+
+    @PostMapping("/{id}/change-password")
+    public ResponseEntity<Void> changePassword(
+            @PathVariable(name = "id") Long id,
+            @RequestBody ChangePasswordRequest request){
+        var user = userRepository.findById(id).orElse(null);
+        if (user == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        if (!user.getPassword().equals(request.getOldPassword())){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        user.setPassword(request.getNewPassword());
+        userRepository.save(user);
+
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
