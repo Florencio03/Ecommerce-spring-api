@@ -4,13 +4,12 @@ import com.example.Ecomerce.dtos.ChangePasswordRequest;
 import com.example.Ecomerce.dtos.RegisterUserRequest;
 import com.example.Ecomerce.dtos.UpdateUserRequest;
 import com.example.Ecomerce.dtos.UserDto;
-import com.example.Ecomerce.entities.User;
 import com.example.Ecomerce.mappers.UserMapper;
 import com.example.Ecomerce.repositories.UserRepository;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -53,7 +52,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserDto> createUser(
-            @RequestBody RegisterUserRequest request,
+            @Valid @RequestBody RegisterUserRequest request,
             UriComponentsBuilder uriBuilder){
         var user = userMapper.toEntity(request);
         userRepository.save(user);
