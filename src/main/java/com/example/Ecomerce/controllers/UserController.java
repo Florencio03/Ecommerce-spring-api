@@ -57,6 +57,7 @@ public class UserController {
     public ResponseEntity<?> registerUser(
             @Valid @RequestBody RegisterUserRequest request,
             UriComponentsBuilder uriBuilder){
+        //Validating Business Rules
         if( userRepository.existsByEmail(request.getEmail())){
             return ResponseEntity.badRequest().body(
                     Map.of("email", "Email is already registered")
