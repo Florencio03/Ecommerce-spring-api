@@ -65,29 +65,14 @@ public class CartController {
     }
 
     @PutMapping("/{cartId}/items/{productId")
-    public ResponseEntity<?> updateItem(
+    //Because your controller method no longer decides HTTP codes you don't need ResponseEntity.
+    public CartItemDto updateItem(
             @PathVariable("cartId") UUID cartId,
             @PathVariable("productId") Long productId,
             @Valid @RequestBody UpdateCartItemRequest request
     ){
-        var cart = cartRepository.getCartWithItems(cartId).orElse(null);
-        if (cart == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    Map.of("error", "Cart not found.")
-            );
-        }
 
-        var cartItem = cart.getItem(productId);
-        if (cartItem == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    Map.of("error", "Product item not found.")
-            );
-        }
-
-        cartItem.setQuantity(request.getQuantity());
-        cartRepository.save(cart);
-
-        return ResponseEntity.ok(cartMapper.toDto(cartItem));
+        return cartService.updateItem(cartId, productId, request.getQuantity());
     }
 
     @DeleteMapping("/{cartId}/items/{productId}")
