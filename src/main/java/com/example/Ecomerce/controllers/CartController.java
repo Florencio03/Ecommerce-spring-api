@@ -32,15 +32,8 @@ public class CartController {
     private final CartService cartService;
 
     @GetMapping("/{cartId}")
-    public ResponseEntity<CartDto> getCart(@PathVariable(name = "cartId") UUID cartId){
-
-        var cart = cartRepository.getCartWithItems(cartId).orElse(null);
-
-        if(cart == null){
-            return ResponseEntity.notFound().build(); //404
-        }
-
-        return ResponseEntity.ok(cartMapper.toDto(cart));
+    public CartDto getCart(@PathVariable(name = "cartId") UUID cartId){
+        return cartService.getCart(cartId);
     }
 
     @PostMapping

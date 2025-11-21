@@ -26,6 +26,16 @@ public class CartService {
     private CartMapper cartMapper;
     private ProductRepository productRepository;
 
+    public CartDto getCart(UUID cartId){
+        var cart = cartRepository.getCartWithItems(cartId).orElse(null);
+
+        if(cart == null){
+            throw new CartNotFoundException();
+        }
+
+        return cartMapper.toDto(cart);
+    }
+
     public CartDto createCart(){
         var cart = new Cart();
         cartRepository.save(cart);
