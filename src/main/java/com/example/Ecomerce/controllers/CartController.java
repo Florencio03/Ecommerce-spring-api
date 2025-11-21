@@ -74,30 +74,17 @@ public class CartController {
             @PathVariable("productId") Long productId
     ){
 
-        var cart = cartRepository.getCartWithItems(cartId).orElse(null);
-        if (cart == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    Map.of("error", "Cart not found.")
-            );
-        }
-        cart.removeIte(productId);
-        cartRepository.save(cart);
+        cartService.removeItem(cartId,productId);
 
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{cartId}/items")
     public ResponseEntity<Valid> clearCart(@PathVariable UUID cartId){
-        var cart = cartRepository.getCartWithItems(cartId).orElse(null);
-        if (cart == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
 
-        cart.clear();
-        cartRepository.save(cart);
+        cartService.clearCart(cartId);
 
         return ResponseEntity.noContent().build();
-
     }
 
     @ExceptionHandler(CartNotFoundException.class)

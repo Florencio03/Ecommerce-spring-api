@@ -56,7 +56,7 @@ public class Cart {
        return cartItem;
    }
 
-   public void removeIte(Long productId){
+   public void removeItem(Long productId){
         var cartItem = getItem(productId);
         if (cartItem != null){
             items.remove(cartItem);
