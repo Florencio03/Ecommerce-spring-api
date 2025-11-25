@@ -4,8 +4,6 @@ import com.example.Ecomerce.dtos.AddItemToCartRequest;
 import com.example.Ecomerce.dtos.CartDto;
 import com.example.Ecomerce.dtos.CartItemDto;
 import com.example.Ecomerce.dtos.UpdateCartItemRequest;
-import com.example.Ecomerce.entities.Cart;
-import com.example.Ecomerce.entities.CartItem;
 import com.example.Ecomerce.exceptions.CartNotFoundException;
 import com.example.Ecomerce.exceptions.ProductNotFoundException;
 import com.example.Ecomerce.mappers.CartMapper;
@@ -57,7 +55,7 @@ public class CartController {
         return ResponseEntity.status(HttpStatus.CREATED).body(cartItemDto);
     }
 
-    @PutMapping("/{cartId}/items/{productId")
+    @PutMapping("/{cartId}/items/{productId}")
     //Because your controller method no longer decides HTTP codes you don't need ResponseEntity.
     public CartItemDto updateItem(
             @PathVariable("cartId") UUID cartId,
