@@ -58,7 +58,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/validate").permitAll()
                         .anyRequest().authenticated()
                 ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        
+
         return http.build();
 
     }
