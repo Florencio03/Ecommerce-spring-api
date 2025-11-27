@@ -6,6 +6,8 @@ import com.example.Ecomerce.dtos.UserDto;
 import com.example.Ecomerce.mappers.UserMapper;
 import com.example.Ecomerce.repositories.UserRepository;
 import com.example.Ecomerce.services.JwtService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,7 +30,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> loginUser(
-            @Valid @RequestBody LoginRequest request){
+            @Valid @RequestBody LoginRequest request,
+            HttpServletResponse response){
         //Authenticate credentials
         authenticationManager.authenticate(
                 //A token is generated
@@ -41,9 +44,17 @@ public class AuthController {
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new BadCredentialsException("Invalid credentials"));
 
-        var token = jwtService.generateToken(user);
+        var accessToken = jwtService.generateAccessToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
 
-        return ResponseEntity.ok(new JwtResponse(token));
+        var cookie = new Cookie("refreshToken", refreshToken);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/auth/refresh");
+        cookie.setMaxAge(604800); // 7d
+        cookie.setSecure(true);
+        response.addCookie(cookie);
+
+        return ResponseEntity.ok(new JwtResponse(accessToken));
     }
 
     @PostMapping("/validate")
