@@ -29,6 +29,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> loginUser(
             @Valid @RequestBody LoginRequest request){
+        //Authenticate credentials
         authenticationManager.authenticate(
                 //A token is generated
                 new UsernamePasswordAuthenticationToken(
@@ -37,7 +38,10 @@ public class AuthController {
                 )
         );
 
-        var token = jwtService.generateToken(request.getEmail());
+        var user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new BadCredentialsException("Invalid credentials"));
+
+        var token = jwtService.generateToken(user);
 
         return ResponseEntity.ok(new JwtResponse(token));
     }
@@ -45,7 +49,7 @@ public class AuthController {
     @PostMapping("/validate")
     public boolean validate(@RequestHeader("Authorization") String authHeder){
         System.out.println("Validate called");
-        var token = authHeder.replace("Bearer", "");
+        var token = authHeder.replace("Bearer ", "");
 
         return jwtService.validateToken(token);
     }
@@ -53,9 +57,9 @@ public class AuthController {
     @GetMapping("/me")
     public ResponseEntity<UserDto> me() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var email = (String) authentication.getPrincipal();
+        var userId = (Long) authentication.getPrincipal();
 
-        var user = userRepository.findByEmail(email).orElse(null);
+        var user = userRepository.findById(userId).orElse(null);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }

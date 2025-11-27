@@ -1,5 +1,6 @@
 package com.example.Ecomerce.services;
 
+import com.example.Ecomerce.entities.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -14,11 +15,13 @@ public class JwtService {
     @Value("${spring.jwt.secret}")
     private String secret;
 
-    public String generateToken(String id) {
+    public String generateToken(User user) {
         final long tokenExpiration = 86400; // 1 day
 
         return Jwts.builder()
-                .subject(id)
+                .subject(user.getId().toString())      // ID as subject
+                .claim("email", user.getEmail())    // claim
+                .claim("name", user.getName())      // claim
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000 * tokenExpiration))
                 .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
@@ -44,7 +47,18 @@ public class JwtService {
                 .getPayload();
     }
 
-    public String getEmailFromToken(String token){
-        return getClaims(token).getSubject();
+    public Long getUserIdFromToken(String token) {
+        return Long.valueOf(getClaims(token).getSubject());
     }
+
+    public String getUserEmailFromToken(String token){
+        return getClaims(token).get("email", String.class);
+    }
+
+    public String getUserNameFromToken(String token){
+        return getClaims(token).get("name", String.class);
+    }
+
+
+
 }
