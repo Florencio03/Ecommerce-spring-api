@@ -25,23 +25,34 @@ public class JwtService {
     }
 
     private Jwt generateToken(User user, long tokenExpiration) {
-        var claims = Jwts.claims()
+
+        var token = Jwts.builder()
                 .subject(user.getId().toString())
-                .add("email", user.getEmail())
-                .add("name", user.getName())
-                .add("role", user.getRole())
+                .claim("email", user.getEmail())
+                .claim("name", user.getName())
+                .claim("role", user.getRole())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000 * tokenExpiration))
-                .build();
+                .signWith(jwtConfig.getSecretKey())
+                .compact();
 
-        return new Jwt(claims, jwtConfig.getSecretKey());
+        var claims = Jwts.parser()
+                .verifyWith(jwtConfig.getSecretKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        return new Jwt(claims, token);
     }
 
     public Jwt parseToken(String token){
         try {
-            var claims = getClaims(token);
+            var parsed = Jwts.parser()
+                    .verifyWith(jwtConfig.getSecretKey())
+                    .build()
+                    .parseSignedClaims(token);
 
-            return new Jwt(claims, jwtConfig.getSecretKey());
+            return new Jwt(parsed.getPayload(), token);
         }
         catch (JwtException ex){
             return null;
