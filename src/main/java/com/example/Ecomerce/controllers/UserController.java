@@ -4,6 +4,7 @@ import com.example.Ecomerce.dtos.ChangePasswordRequest;
 import com.example.Ecomerce.dtos.RegisterUserRequest;
 import com.example.Ecomerce.dtos.UpdateUserRequest;
 import com.example.Ecomerce.dtos.UserDto;
+import com.example.Ecomerce.entities.Role;
 import com.example.Ecomerce.mappers.UserMapper;
 import com.example.Ecomerce.repositories.UserRepository;
 import jakarta.validation.Valid;
@@ -68,6 +69,7 @@ public class UserController {
 
         var user = userMapper.toEntity(request);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.USER);
         userRepository.save(user);
 
         var userDto = userMapper.toDto(user);

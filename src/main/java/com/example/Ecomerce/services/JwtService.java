@@ -1,6 +1,7 @@
 package com.example.Ecomerce.services;
 
 import com.example.Ecomerce.config.JwtConfig;
+import com.example.Ecomerce.entities.Role;
 import com.example.Ecomerce.entities.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -29,6 +30,7 @@ public class JwtService {
                 .subject(user.getId().toString())
                 .claim("email", user.getEmail())
                 .claim("name", user.getName())
+                .claim("role", user.getRole())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000 * tokenExpiration))
                 .signWith(jwtConfig.getSecretKey())
@@ -66,6 +68,8 @@ public class JwtService {
         return getClaims(token).get("name", String.class);
     }
 
-
+    public Role getRoleFromToken(String token){
+        return Role.valueOf(getClaims(token).get("role", String.class));
+    }
 
 }
