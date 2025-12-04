@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
-    @GetMapping("/hello ")
+    @GetMapping("/hello")
     public String sayHello(){
         return "Hello Admin!";
     }

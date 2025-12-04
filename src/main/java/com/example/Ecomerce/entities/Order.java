@@ -22,7 +22,7 @@ public class Order {
     private Long id;
 
     @ManyToOne // many orders belong to one user
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id")
     //@Column(name = "customer_id")
     private User customer;
 
@@ -36,7 +36,7 @@ public class Order {
     @Column(name = "total_price")
     private BigDecimal totalPrice;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
     private Set<OrderItem> items = new LinkedHashSet<>();
 
 }

@@ -28,7 +28,7 @@ public class OrderItem {
     private BigDecimal unitPrice;
 
     @Column(name = "quantity")
-    private int quantity;
+    private Integer quantity;
 
     @Column(name = "total_price")
     private BigDecimal totalPrice;

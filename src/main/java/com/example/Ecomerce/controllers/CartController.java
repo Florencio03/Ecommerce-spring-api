@@ -22,27 +22,26 @@ import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/cart")
+@RequestMapping("/carts")
 public class CartController {
     private final CartRepository cartRepository;
     private final CartMapper cartMapper;
     private final ProductRepository productRepository;
     private final CartService cartService;
 
-    @GetMapping("/{cartId}")
-    public CartDto getCart(@PathVariable(name = "cartId") UUID cartId){
-        return cartService.getCart(cartId);
-    }
-
     @PostMapping
     public ResponseEntity<CartDto> createCart(
-            UriComponentsBuilder uriBuilder){
-
+            UriComponentsBuilder uriBuilder
+    ) {
         var cartDto = cartService.createCart();
         var uri = uriBuilder.path("/carts/{id}").buildAndExpand(cartDto.getId()).toUri();
 
-
         return ResponseEntity.created(uri).body(cartDto);
+    }
+
+    @GetMapping("/{cartId}")
+    public CartDto getCart(@PathVariable(name = "cartId") UUID cartId){
+        return cartService.getCart(cartId);
     }
 
     @PostMapping("{cartId}/items")

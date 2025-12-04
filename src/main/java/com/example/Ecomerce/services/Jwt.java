@@ -9,28 +9,26 @@ import java.util.Date;
 
 public class Jwt {
     private final Claims claims;
-    private final String token;
+    private final SecretKey secretKey;
 
-
-    public Jwt(Claims claims, String token){
+    public Jwt(Claims claims, SecretKey secretKey) {
         this.claims = claims;
-        this.token = token;
+        this.secretKey = secretKey;
     }
 
-    public boolean isExpired(){
+    public boolean isExpired() {
         return claims.getExpiration().before(new Date());
     }
 
-    public Long getUserId(){
+    public Long getUserId() {
         return Long.valueOf(claims.getSubject());
     }
 
-    public Role getRole(){
+    public Role getRole() {
         return Role.valueOf(claims.get("role", String.class));
     }
 
     public String toString() {
-        return token; // return original
+        return Jwts.builder().claims(claims).signWith(secretKey).compact();
     }
-
 }

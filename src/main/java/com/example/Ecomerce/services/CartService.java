@@ -8,16 +8,18 @@ import com.example.Ecomerce.exceptions.ProductNotFoundException;
 import com.example.Ecomerce.mappers.CartMapper;
 import com.example.Ecomerce.repositories.CartRepository;
 import com.example.Ecomerce.repositories.ProductRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class CartService {
 
-    private CartRepository cartRepository;
-    private CartMapper cartMapper;
-    private ProductRepository productRepository;
+    private final CartRepository cartRepository;
+    private final CartMapper cartMapper;
+    private final ProductRepository productRepository;
 
     public CartDto getCart(UUID cartId){
         var cart = cartRepository.getCartWithItems(cartId).orElse(null);
@@ -76,7 +78,6 @@ public class CartService {
         }
 
         cart.removeItem(productId);
-
         cartRepository.save(cart);
     }
 
@@ -89,5 +90,4 @@ public class CartService {
         cart.clear();
         cartRepository.save(cart);
     }
-
 }
