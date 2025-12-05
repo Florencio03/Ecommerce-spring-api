@@ -9,11 +9,12 @@ import java.util.Date;
 
 public class Jwt {
     private final Claims claims;
-    private final SecretKey secretKey;
+    private final String token; // Store original token string
 
-    public Jwt(Claims claims, SecretKey secretKey) {
+
+    public Jwt(Claims claims, String token){
         this.claims = claims;
-        this.secretKey = secretKey;
+        this.token = token;
     }
 
     public boolean isExpired() {
@@ -29,6 +30,6 @@ public class Jwt {
     }
 
     public String toString() {
-        return Jwts.builder().claims(claims).signWith(secretKey).compact();
+        return token; // return original
     }
 }
