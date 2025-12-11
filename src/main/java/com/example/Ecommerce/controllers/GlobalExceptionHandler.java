@@ -2,6 +2,8 @@ package com.example.Ecommerce.controllers;
 
 import com.example.Ecommerce.dtos.ErrorDto;
 import com.example.Ecommerce.exceptions.CartNotFoundException;
+import com.example.Ecommerce.exceptions.OrderAccessDeniedException;
+import com.example.Ecommerce.exceptions.OrderNotFoundException;
 import com.example.Ecommerce.exceptions.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,4 +50,17 @@ public class GlobalExceptionHandler {
                 .badRequest()
                 .body(new ErrorDto("Product not found in the cart."));
     }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleOrderNotFound(OrderNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorDto(ex.getMessage()));
+    }
+
+    @ExceptionHandler(OrderAccessDeniedException.class)
+    public ResponseEntity<ErrorDto> handleOrderAccessDenied(OrderAccessDeniedException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new ErrorDto(ex.getMessage()));
+    }
+
 }
