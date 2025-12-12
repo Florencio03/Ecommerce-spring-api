@@ -2,17 +2,22 @@ package com.example.Ecommerce.services;
 
 import com.example.Ecommerce.dtos.CheckoutRequest;
 import com.example.Ecommerce.dtos.CheckoutResponse;
-import com.example.Ecommerce.dtos.ErrorDto;
 import com.example.Ecommerce.entities.Order;
 import com.example.Ecommerce.exceptions.CartEmptyException;
 import com.example.Ecommerce.exceptions.CartNotFoundException;
 import com.example.Ecommerce.repositories.CartRepository;
 import com.example.Ecommerce.repositories.OrderRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import com.stripe.exception.StripeException;
+import com.stripe.model.checkout.Session;
+import com.stripe.param.checkout.SessionCreateParams;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-@AllArgsConstructor
+import java.math.BigDecimal;
+
+@RequiredArgsConstructor
 @Service
 public class CheckoutService {
     private final CartRepository cartRepository;
@@ -20,7 +25,11 @@ public class CheckoutService {
     private final AuthService authService;
     private final CartService cartService;
 
-    public CheckoutResponse checkout(CheckoutRequest request){
+    @Value("${websiteUrl}")
+    private String websiteUrl;
+
+    @Transactional
+    public CheckoutResponse checkout(CheckoutRequest request) throws StripeException {
 
         var cart = cartRepository.getCartWithItems(request.getCartId()).orElse(null);
         if (cart == null) {
@@ -37,8 +46,44 @@ public class CheckoutService {
 
         orderRepository.save(order);
 
-        cartService.clearCart(cart.getId());
+        try {
+            // Create a checkout session
+            var builder = SessionCreateParams.builder()
+                    .setMode(SessionCreateParams.Mode.PAYMENT)
+                    .setSuccessUrl(websiteUrl + "/checkout-success?orderId=" + order.getId())
+                    .setCancelUrl(websiteUrl + "/checkout-cancel");
 
-        return new CheckoutResponse(order.getId());
+            order.getItems().forEach(item -> {
+                var lineItem = SessionCreateParams.LineItem.builder()
+                        .setQuantity(Long.valueOf(item.getQuantity()))
+                        .setPriceData(
+                                SessionCreateParams.LineItem.PriceData.builder()
+                                        .setCurrency("usd")
+                                        .setUnitAmountDecimal(
+                                                item.getUnitPrice()
+                                                        .multiply(BigDecimal.valueOf(100)))
+                                        .setProductData(
+                                                SessionCreateParams.LineItem.PriceData.ProductData.builder()
+                                                        .setName(item.getProduct().getName())
+                                                        .build()
+                                        )
+                                        .build()
+                        ).build();
+                builder.addLineItem(lineItem);
+            });
+
+
+
+            var session = Session.create(builder.build());
+
+            cartService.clearCart(cart.getId());
+
+            return new CheckoutResponse(order.getId(), session.getUrl());
+        }
+        catch (StripeException ex) {
+            System.out.println(ex.getMessage());
+            orderRepository.delete(order);
+            throw ex;
+        }
     }
 }
