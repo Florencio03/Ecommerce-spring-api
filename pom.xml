@@ -44,6 +44,13 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+        <!-- Stripe for payment-->
+        <dependency>
+            <groupId>com.stripe</groupId>
+            <artifactId>stripe-java</artifactId>
+            <version>31.0.0</version>
+        </dependency>
+
 		<!-- Spring boot Jakarta Validation -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
