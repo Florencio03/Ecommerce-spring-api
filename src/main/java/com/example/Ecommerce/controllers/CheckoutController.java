@@ -5,6 +5,7 @@ import com.example.Ecommerce.dtos.CheckoutResponse;
 import com.example.Ecommerce.dtos.ErrorDto;
 import com.example.Ecommerce.exceptions.CartEmptyException;
 import com.example.Ecommerce.exceptions.CartNotFoundException;
+import com.example.Ecommerce.exceptions.PaymentException;
 import com.example.Ecommerce.services.CheckoutService;
 import com.stripe.exception.StripeException;
 import jakarta.validation.Valid;
@@ -20,18 +21,17 @@ public class CheckoutController {
     private final CheckoutService checkoutService;
 
     @PostMapping
-    public ResponseEntity<?> checkout(@Valid @RequestBody CheckoutRequest request) {
+    public CheckoutResponse checkout(@Valid @RequestBody CheckoutRequest request) {
         //return checkoutService.checkout(request);
-        try {
+        return checkoutService.checkout(request);
 
-            return ResponseEntity.ok(checkoutService.checkout(request));
+    }
 
-        } catch (StripeException ex){
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ErrorDto("Error creating a checkout session"));
-        }
-
+    @ExceptionHandler(PaymentException.class)
+    public ResponseEntity<?> handlePaymentException() {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorDto("Error creating a checkout session"));
     }
 
     @ExceptionHandler({CartNotFoundException.class, CartEmptyException.class})
