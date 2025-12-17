@@ -3,22 +3,20 @@ package com.example.Ecommerce.controllers;
 import com.example.Ecommerce.dtos.CheckoutRequest;
 import com.example.Ecommerce.dtos.CheckoutResponse;
 import com.example.Ecommerce.dtos.ErrorDto;
-import com.example.Ecommerce.entities.OrderStatus;
 import com.example.Ecommerce.exceptions.CartEmptyException;
 import com.example.Ecommerce.exceptions.CartNotFoundException;
 import com.example.Ecommerce.exceptions.PaymentException;
 import com.example.Ecommerce.repositories.OrderRepository;
 import com.example.Ecommerce.services.CheckoutService;
-import com.stripe.exception.SignatureVerificationException;
-import com.stripe.model.PaymentIntent;
-import com.stripe.net.Webhook;
+import com.example.Ecommerce.services.WebhookRequest;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -38,38 +36,11 @@ public class CheckoutController {
     }
 
     @PostMapping("/webhook")
-    public ResponseEntity<Void> handleWebhook(
-            @RequestHeader("Stripe-Signature") String signature,
+    public void handleWebhook(
+            @RequestHeader Map<String, String> headers,
             @RequestBody String payload
     ) {
-        try {
-            var event = Webhook.constructEvent(payload, signature, webhookSecretKey);
-            System.out.println(event.getType());
-
-            var stripeObject = event.getDataObjectDeserializer().getObject().orElse(null);
-
-            switch (event.getType()) {
-                case "payment_intent.succeeded" -> {
-                    // Update order status (PAID)
-                    var paymentIntent = (PaymentIntent) stripeObject;
-                    if (paymentIntent != null) {
-                        var orderId = paymentIntent.getMetadata().get("order_id");
-                        var order = orderRepository.findById(Long.valueOf(orderId)).orElseThrow();
-                        order.setStatus(OrderStatus.PAID);
-                        orderRepository.save(order);
-                    }
-                }
-                case "payment_intent.failed" -> {
-                    // Update order status (FAILED)
-                }
-
-            }
-
-            return ResponseEntity.ok().build();
-
-        } catch (SignatureVerificationException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        checkoutService.handleWebhookEvent(new WebhookRequest(headers, payload));
 
     }
 

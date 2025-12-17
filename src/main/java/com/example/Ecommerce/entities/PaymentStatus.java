@@ -1,6 +1,6 @@
 package com.example.Ecommerce.entities;
 
-public enum OrderStatus {
+public enum PaymentStatus {
     PENDING,
     PAID,
     FAILED,
