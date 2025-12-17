@@ -1,22 +1,16 @@
-package com.example.Ecommerce.services;
+package com.example.Ecommerce.payments;
 
-import com.example.Ecommerce.dtos.CheckoutRequest;
-import com.example.Ecommerce.dtos.CheckoutResponse;
 import com.example.Ecommerce.entities.Order;
 import com.example.Ecommerce.exceptions.CartEmptyException;
 import com.example.Ecommerce.exceptions.CartNotFoundException;
-import com.example.Ecommerce.exceptions.PaymentException;
 import com.example.Ecommerce.repositories.CartRepository;
 import com.example.Ecommerce.repositories.OrderRepository;
-import com.stripe.exception.StripeException;
-import com.stripe.model.checkout.Session;
-import com.stripe.param.checkout.SessionCreateParams;
+import com.example.Ecommerce.services.AuthService;
+import com.example.Ecommerce.services.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
 
 @RequiredArgsConstructor
 @Service

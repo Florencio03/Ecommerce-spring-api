@@ -2,7 +2,7 @@ package com.example.Ecommerce.services;
 
 import com.example.Ecommerce.config.JwtConfig;
 
-import com.example.Ecommerce.entities.User;
+import com.example.Ecommerce.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

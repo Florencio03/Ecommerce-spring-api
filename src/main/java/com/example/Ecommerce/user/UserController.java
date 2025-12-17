@@ -1,12 +1,5 @@
-package com.example.Ecommerce.controllers;
+package com.example.Ecommerce.user;
 
-import com.example.Ecommerce.dtos.ChangePasswordRequest;
-import com.example.Ecommerce.dtos.RegisterUserRequest;
-import com.example.Ecommerce.dtos.UpdateUserRequest;
-import com.example.Ecommerce.dtos.UserDto;
-import com.example.Ecommerce.entities.Role;
-import com.example.Ecommerce.mappers.UserMapper;
-import com.example.Ecommerce.repositories.UserRepository;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;

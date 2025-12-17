@@ -1,9 +1,5 @@
-package com.example.Ecommerce.mappers;
+package com.example.Ecommerce.user;
 
-import com.example.Ecommerce.dtos.RegisterUserRequest;
-import com.example.Ecommerce.dtos.UpdateUserRequest;
-import com.example.Ecommerce.dtos.UserDto;
-import com.example.Ecommerce.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 

@@ -1,14 +1,9 @@
-package com.example.Ecommerce.controllers;
+package com.example.Ecommerce.payments;
 
-import com.example.Ecommerce.dtos.CheckoutRequest;
-import com.example.Ecommerce.dtos.CheckoutResponse;
 import com.example.Ecommerce.dtos.ErrorDto;
 import com.example.Ecommerce.exceptions.CartEmptyException;
 import com.example.Ecommerce.exceptions.CartNotFoundException;
-import com.example.Ecommerce.exceptions.PaymentException;
 import com.example.Ecommerce.repositories.OrderRepository;
-import com.example.Ecommerce.services.CheckoutService;
-import com.example.Ecommerce.services.WebhookRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,4 +1,4 @@
-package com.example.Ecommerce.entities;
+package com.example.Ecommerce.user;
 
 public enum Role {
     USER,

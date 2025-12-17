@@ -1,4 +1,4 @@
-package com.example.Ecommerce.services;
+package com.example.Ecommerce.payments;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

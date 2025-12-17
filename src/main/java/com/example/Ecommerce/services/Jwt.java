@@ -1,6 +1,6 @@
 package com.example.Ecommerce.services;
 
-import com.example.Ecommerce.entities.Role;
+import com.example.Ecommerce.user.Role;
 import io.jsonwebtoken.Claims;
 
 import java.util.Date;

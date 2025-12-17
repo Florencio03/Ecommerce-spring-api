@@ -1,6 +1,6 @@
 package com.example.Ecommerce.config;
 
-import com.example.Ecommerce.entities.Role;
+import com.example.Ecommerce.user.Role;
 import com.example.Ecommerce.filters.JwtAuthenticationFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;

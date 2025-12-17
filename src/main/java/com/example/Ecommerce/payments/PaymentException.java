@@ -1,4 +1,4 @@
-package com.example.Ecommerce.exceptions;
+package com.example.Ecommerce.payments;
 
 import lombok.NoArgsConstructor;
 

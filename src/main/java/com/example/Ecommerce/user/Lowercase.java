@@ -1,4 +1,4 @@
-package com.example.Ecommerce.validation;
+package com.example.Ecommerce.user;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

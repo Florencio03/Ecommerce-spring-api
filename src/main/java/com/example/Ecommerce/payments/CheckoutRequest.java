@@ -1,4 +1,4 @@
-package com.example.Ecommerce.dtos;
+package com.example.Ecommerce.payments;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

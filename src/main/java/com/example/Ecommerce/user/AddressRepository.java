@@ -1,6 +1,5 @@
-package com.example.Ecommerce.repositories;
+package com.example.Ecommerce.user;
 
-import com.example.Ecommerce.entities.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AddressRepository extends JpaRepository<Address, Long> {

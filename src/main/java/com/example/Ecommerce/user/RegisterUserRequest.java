@@ -1,6 +1,5 @@
-package com.example.Ecommerce.dtos;
+package com.example.Ecommerce.user;
 
-import com.example.Ecommerce.validation.Lowercase;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
