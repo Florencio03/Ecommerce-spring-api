@@ -1,5 +1,6 @@
 package com.example.Ecommerce.entities;
 
+import com.example.Ecommerce.carts.Cart;
 import com.example.Ecommerce.user.User;
 import jakarta.persistence.*;
 import lombok.*;

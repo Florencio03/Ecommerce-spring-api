@@ -1,5 +1,6 @@
 package com.example.Ecommerce.services;
 
+import com.example.Ecommerce.auth.AuthService;
 import com.example.Ecommerce.dtos.OrderDto;
 import com.example.Ecommerce.exceptions.OrderAccessDeniedException;
 import com.example.Ecommerce.exceptions.OrderNotFoundException;

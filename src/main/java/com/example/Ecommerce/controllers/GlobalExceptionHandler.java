@@ -1,10 +1,10 @@
 package com.example.Ecommerce.controllers;
 
 import com.example.Ecommerce.dtos.ErrorDto;
-import com.example.Ecommerce.exceptions.CartNotFoundException;
+import com.example.Ecommerce.carts.CartNotFoundException;
 import com.example.Ecommerce.exceptions.OrderAccessDeniedException;
 import com.example.Ecommerce.exceptions.OrderNotFoundException;
-import com.example.Ecommerce.exceptions.ProductNotFoundException;
+import com.example.Ecommerce.products.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
