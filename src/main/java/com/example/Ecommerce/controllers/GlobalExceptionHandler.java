@@ -2,8 +2,8 @@ package com.example.Ecommerce.controllers;
 
 import com.example.Ecommerce.dtos.ErrorDto;
 import com.example.Ecommerce.carts.CartNotFoundException;
-import com.example.Ecommerce.exceptions.OrderAccessDeniedException;
-import com.example.Ecommerce.exceptions.OrderNotFoundException;
+import com.example.Ecommerce.orders.OrderAccessDeniedException;
+import com.example.Ecommerce.orders.OrderNotFoundException;
 import com.example.Ecommerce.products.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

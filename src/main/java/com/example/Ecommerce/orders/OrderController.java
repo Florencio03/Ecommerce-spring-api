@@ -1,7 +1,5 @@
-package com.example.Ecommerce.controllers;
+package com.example.Ecommerce.orders;
 
-import com.example.Ecommerce.dtos.OrderDto;
-import com.example.Ecommerce.services.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

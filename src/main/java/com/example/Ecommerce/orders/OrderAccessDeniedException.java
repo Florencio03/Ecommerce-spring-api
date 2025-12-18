@@ -1,4 +1,4 @@
-package com.example.Ecommerce.exceptions;
+package com.example.Ecommerce.orders;
 
 public class OrderAccessDeniedException extends RuntimeException {
     public OrderAccessDeniedException(Long id) {

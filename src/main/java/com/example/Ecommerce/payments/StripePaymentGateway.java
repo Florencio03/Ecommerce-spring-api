@@ -1,8 +1,8 @@
 package com.example.Ecommerce.payments;
 
-import com.example.Ecommerce.entities.Order;
-import com.example.Ecommerce.entities.OrderItem;
-import com.example.Ecommerce.entities.PaymentStatus;
+import com.example.Ecommerce.orders.Order;
+import com.example.Ecommerce.orders.OrderItem;
+import com.example.Ecommerce.orders.PaymentStatus;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Event;

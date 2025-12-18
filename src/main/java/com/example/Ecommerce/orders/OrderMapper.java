@@ -1,7 +1,5 @@
-package com.example.Ecommerce.mappers;
+package com.example.Ecommerce.orders;
 
-import com.example.Ecommerce.dtos.OrderDto;
-import com.example.Ecommerce.entities.Order;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

@@ -1,4 +1,4 @@
-package com.example.Ecommerce.entities;
+package com.example.Ecommerce.orders;
 
 import com.example.Ecommerce.carts.Cart;
 import com.example.Ecommerce.user.User;
