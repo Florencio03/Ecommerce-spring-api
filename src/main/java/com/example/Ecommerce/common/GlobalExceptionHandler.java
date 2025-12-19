@@ -1,6 +1,5 @@
-package com.example.Ecommerce.controllers;
+package com.example.Ecommerce.common;
 
-import com.example.Ecommerce.dtos.ErrorDto;
 import com.example.Ecommerce.carts.CartNotFoundException;
 import com.example.Ecommerce.orders.OrderAccessDeniedException;
 import com.example.Ecommerce.orders.OrderNotFoundException;
