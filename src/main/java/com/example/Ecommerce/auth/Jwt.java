@@ -2,17 +2,18 @@ package com.example.Ecommerce.auth;
 
 import com.example.Ecommerce.user.Role;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 public class Jwt {
     private final Claims claims;
-    private final String token; // Store original token string
+    private final SecretKey secretKey;
 
-
-    public Jwt(Claims claims, String token){
+    public Jwt(Claims claims, SecretKey secretKey) {
         this.claims = claims;
-        this.token = token;
+        this.secretKey = secretKey;
     }
 
     public boolean isExpired() {
@@ -28,6 +29,6 @@ public class Jwt {
     }
 
     public String toString() {
-        return token; // return original
+        return Jwts.builder().claims(claims).signWith(secretKey).compact();
     }
 }
