@@ -1,9 +1,8 @@
 package com.example.Ecommerce.payments;
 
-import com.example.Ecommerce.common.ErrorDto;
 import com.example.Ecommerce.carts.CartEmptyException;
 import com.example.Ecommerce.carts.CartNotFoundException;
-import com.example.Ecommerce.orders.OrderRepository;
+import com.example.Ecommerce.common.ErrorDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,14 +17,13 @@ import java.util.Map;
 @RequestMapping("/checkout")
 public class CheckoutController {
     private final CheckoutService checkoutService;
-    private final OrderRepository orderRepository;
 
     @Value("${stripe.webhookSecretKey}")
     private String webhookSecretKey;
 
     @PostMapping
     public CheckoutResponse checkout(@Valid @RequestBody CheckoutRequest request) {
-        //return checkoutService.checkout(request);
+
         return checkoutService.checkout(request);
 
     }
