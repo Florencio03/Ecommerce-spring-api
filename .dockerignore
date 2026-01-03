@@ -1,0 +1,17 @@
+# Maven
+target/
+
+# Environment variables & secrets
+.env
+
+# Git
+.git
+.gitignore
+
+# IDEs
+.idea
+.vscode
+*.iml
+
+# OS
+.DS_Store
