@@ -12,5 +12,4 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
-websiteUrl: http://localhost:8080
-
+websiteUrl: ${WEBSITE_URL}
