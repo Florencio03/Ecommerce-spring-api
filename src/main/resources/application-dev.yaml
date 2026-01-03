@@ -2,8 +2,7 @@ spring:
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD} #for lap
-    #for pc:Floren03
+    password: ${SPRING_DATASOURCE_PASSWORD}
 
   jpa:
     hibernate:
@@ -14,3 +13,4 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
 websiteUrl: http://localhost:8080
+
